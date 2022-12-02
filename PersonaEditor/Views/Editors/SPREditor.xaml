@@ -38,10 +38,13 @@
                           Background="#FFF0F0F0" SelectionMode="Single" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" VerticalScrollBarVisibility="Visible">
                     <DataGrid.Columns>
                         <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Name}"/>
-                        <DataGridTextColumn Header="X1" Binding="{Binding X1}"/>
-                        <DataGridTextColumn Header="Y1" Binding="{Binding Y1}"/>
-                        <DataGridTextColumn Header="X2" Binding="{Binding X2}"/>
-                        <DataGridTextColumn Header="Y2" Binding="{Binding Y2}"/>
+                        <DataGridTextColumn Header="Spr ID" Binding="{Binding ID}"/>
+                        <DataGridTextColumn Header="X Pos" Binding="{Binding X1}"/>
+                        <DataGridTextColumn Header="X Len" Binding="{Binding X2}"/>
+                        <DataGridTextColumn Header="Y Pos" Binding="{Binding Y1}"/>
+                        <DataGridTextColumn Header="Y Len" Binding="{Binding Y2}"/>
+                        <DataGridTextColumn Header="X Scl" Binding="{Binding X3}"/>
+                        <DataGridTextColumn Header="Y Scl" Binding="{Binding Y3}"/>
                     </DataGrid.Columns>
                 </DataGrid>
 

@@ -16,6 +16,18 @@ namespace PersonaEditor.ViewModels.Editors
 
         public string Name => Encoding.GetEncoding("shift-jis").GetString(Key.Comment.Where(x => x != 0x00).ToArray());
 
+        public int ID
+        {
+            get { return Key.ListIndex; }
+            set
+            {
+                if (value != Key.ListIndex)
+                {
+                    Key.ListIndex = value;
+                    Notify("ID");
+                }
+            }
+        }
         public int X1
         {
             get { return Key.X0; }
@@ -24,20 +36,20 @@ namespace PersonaEditor.ViewModels.Editors
                 if (value != Key.X0)
                 {
                     Key.X0 = value;
-                    Notify("X1"); Notify("X2");
+                    Notify("X1");
                     Notify("Rect");
                 }
             }
         }
         public int X2
         {
-            get { return Key.X0 + Key.Xdel; }
+            get { return Key.Xdel; }
             set
             {
-                if (value != Key.X0 + Key.Xdel)
+                if (value != Key.Xdel)
                 {
-                    Key.Xdel = value - Key.X0;
-                    Notify("X1"); Notify("X2");
+                    Key.Xdel = value;
+                    Notify("X2");
                     Notify("Rect");
                 }
             }
@@ -50,28 +62,52 @@ namespace PersonaEditor.ViewModels.Editors
                 if (value != Key.Y0)
                 {
                     Key.Y0 = value;
-                    Notify("Y1"); Notify("Y2");
+                    Notify("Y1");
                     Notify("Rect");
                 }
             }
         }
         public int Y2
         {
-            get { return Key.Y0 + Key.Ydel; }
+            get { return Key.Ydel; }
             set
             {
-                if (value != Key.Y0 + Key.Ydel)
+                if (value != Key.Ydel)
                 {
-                    Key.Ydel = value - Key.Y0;
-                    Notify("Y1"); Notify("Y2");
+                    Key.Ydel = value;
+                    Notify("Y2");
                     Notify("Rect");
+                }
+            }
+        }
+        public int X3
+        {
+            get { return Key.XScl; }
+            set
+            {
+                if (value != Key.XScl)
+                {
+                    Key.XScl = value;
+                    Notify("X3");
+                }
+            }
+        }
+        public int Y3
+        {
+            get { return Key.YScl; }
+            set
+            {
+                if (value != Key.YScl)
+                {
+                    Key.YScl = value;
+                    Notify("Y3");
                 }
             }
         }
 
         public Rect Rect
         {
-            get { return new Rect(new Point(X1, Y1), new Point(X2, Y2)); }
+            get { return new Rect(new Point(X1, Y1), new Point(X2 + X1, Y2 + Y1)); }
         }
 
         public bool IsSelected

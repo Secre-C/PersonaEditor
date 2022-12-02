@@ -5,18 +5,20 @@ namespace PersonaEditorLib.SpriteContainer
 {
     public class SPDKey
     {
-        public int ListIndex { get; private set; }
+        public int ListIndex { get; set; }
         public int TextureIndex { get; private set; }
         public int[] Unk0x08 { get; private set; } // x 6
         public int X0 { get; set; }
         public int Y0 { get; set; }
         public int Xdel { get; set; }
         public int Ydel { get; set; }
-        public int[] Unk0x30 { get; private set; } // x 2
+        public int[] Unk0x30 { get; set; } // x 2
+        public int XScl { get; set; }
+        public int YScl { get; set; }
         public int[] Unk0x40 { get; private set; } // x 12
         public byte[] Comment { get; private set; }
 
-        private bool sizeEqual = false;
+        //private bool sizeEqual = false;
 
         public SPDKey(BinaryReader reader)
         {
@@ -27,9 +29,10 @@ namespace PersonaEditorLib.SpriteContainer
             Y0 = reader.ReadInt32();
             Xdel = reader.ReadInt32();
             Ydel = reader.ReadInt32();
-            Unk0x30 = reader.ReadInt32Array(4);
-
-            sizeEqual = Unk0x30[2] == Xdel && Unk0x30[3] == Ydel;
+            Unk0x30 = reader.ReadInt32Array(2);
+            XScl = reader.ReadInt32();
+            YScl = reader.ReadInt32();
+            //sizeEqual = Unk0x30[2] == Xdel && Unk0x30[3] == Ydel;
 
             Unk0x40 = reader.ReadInt32Array(12);
             Comment = reader.ReadBytes(0x30);
@@ -50,13 +53,15 @@ namespace PersonaEditorLib.SpriteContainer
             writer.Write(Xdel);
             writer.Write(Ydel);
 
-            if (sizeEqual)
-            {
-                Unk0x30[2] = Xdel;
-                Unk0x30[3] = Ydel;
-            }
+            //if (sizeEqual)
+            //{
+            //    Unk0x30[2] = Xdel;
+            //    Unk0x30[3] = Ydel;
+            //}
 
             writer.WriteInt32Array(Unk0x30);
+            writer.Write(XScl);
+            writer.Write(YScl);
             //writer.Write(Xdel);
             //writer.Write(Ydel);
             writer.WriteInt32Array(Unk0x40);
