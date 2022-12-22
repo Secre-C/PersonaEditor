@@ -10,6 +10,9 @@ using System.IO;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using Microsoft.WindowsAPICodePack.Dialogs;
+using PersonaEditorLib.Other;
+using System.Collections.Generic;
 
 namespace PersonaEditor.ViewModels
 {
@@ -20,7 +23,6 @@ namespace PersonaEditor.ViewModels
             _contextMenu.Clear();
 
             MenuItem menuItem = null;
-
             if (PersonaFileHelper.IsEdited(PersonaFile))
             {
                 menuItem = new MenuItem();
@@ -46,6 +48,16 @@ namespace PersonaEditor.ViewModels
                 menuItem = new MenuItem();
                 menuItem.Header = Application.Current.Resources.MergedDictionaries.GetString("tree_SaveAll");
                 menuItem.Command = new RelayCommand(ContextMenu_SaveAll);
+                _contextMenu.Add(menuItem);
+
+                menuItem = new MenuItem();
+                menuItem.Header = Application.Current.Resources.MergedDictionaries.GetString("tree_Add");
+                menuItem.Command = new RelayCommand(ContextMenu_Add);
+                _contextMenu.Add(menuItem);
+
+                menuItem = new MenuItem();
+                menuItem.Header = Application.Current.Resources.MergedDictionaries.GetString("tree_AddFolder");
+                menuItem.Command = new RelayCommand(ContextMenu_AddFolder);
                 _contextMenu.Add(menuItem);
             }
         }
@@ -154,13 +166,58 @@ namespace PersonaEditor.ViewModels
 
         private void ContextMenu_SaveAll()
         {
-            System.Windows.Forms.FolderBrowserDialog FBD = new System.Windows.Forms.FolderBrowserDialog();
-            if (FBD.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            var FBD = new CommonOpenFileDialog();
+            FBD.IsFolderPicker = true;
+            FBD.Title = "Export All Files to Directory";
+            if (FBD.ShowDialog() == CommonFileDialogResult.Ok)
             {
-                string path = FBD.SelectedPath;
+                string path = FBD.FileName;
 
                 foreach (var item in PersonaFile.GameData.SubFiles)
                     File.WriteAllBytes(Path.Combine(path, item.Name), item.GameData.GetData());
+            }
+        }
+
+        private void ContextMenu_Add()
+        {
+            var FBD = new CommonOpenFileDialog();
+            FBD.Title = "Select file to add to archive";
+            if (FBD.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                string path = FBD.FileName;
+
+                var fileName = Path.GetFileName(path);
+                byte[] fileBytes = File.ReadAllBytes(path);
+                var gameFileObj = GameFormatHelper.OpenFile(fileName, fileBytes);
+                PersonaFile.GameData.SubFiles.Add(gameFileObj);
+
+                Update(_personaFile);
+            }
+        }
+
+        private void ContextMenu_AddFolder()
+        {
+            var FBD = new CommonOpenFileDialog();
+            FBD.Title = "Select Folder to add items from";
+            FBD.IsFolderPicker = true;
+            FBD.Multiselect = true;
+            if (FBD.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                IEnumerable<string> paths = FBD.FileNames;
+
+                foreach (var path in paths)
+                {
+                    foreach (var file in Directory.GetFiles(path, "*.*", SearchOption.AllDirectories))
+                    {
+                        var fileName = Utilities.GetRelativePath(file, $"{Path.GetDirectoryName(path)}\\");
+                        byte[] fileBytes = File.ReadAllBytes(file);
+                        var gameFileObj = GameFormatHelper.OpenFile(fileName, fileBytes);
+
+                        PersonaFile.GameData.SubFiles.Add(gameFileObj);
+                    }
+                }
+
+                Update(_personaFile);
             }
         }
     }

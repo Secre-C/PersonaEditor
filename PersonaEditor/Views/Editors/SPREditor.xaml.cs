@@ -44,5 +44,10 @@ namespace PersonaEditor.Views.Editors
             var newY = Math.Round((a.Y / sen.ActualHeight) * temp.Height);
             YCoo.Text = newY.ToString();
         }
+
+        private void TextBlock_TextInput(object sender, TextCompositionEventArgs e)
+        {
+
+        }
     }
 }

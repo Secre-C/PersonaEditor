@@ -16,6 +16,19 @@ namespace PersonaEditor.ViewModels.Editors
 
         public string Name => Encoding.GetEncoding("shift-jis").GetString(Key.Comment.Where(x => x != 0x00).ToArray());
 
+        public int TextureID
+        {
+            get { return Key.TextureIndex; }
+            set
+            {
+                if (value != Key.TextureIndex)
+                {
+                    Key.TextureIndex = value;
+                    Notify("TextureIndex");
+                }
+            }
+        }
+
         public int ID
         {
             get { return Key.ListIndex; }

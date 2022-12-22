@@ -38,6 +38,7 @@
                           Background="#FFF0F0F0" SelectionMode="Single" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" VerticalScrollBarVisibility="Visible">
                     <DataGrid.Columns>
                         <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Tex ID" Binding="{Binding TextureID}"/>
                         <DataGridTextColumn Header="Spr ID" Binding="{Binding ID}"/>
                         <DataGridTextColumn Header="X Pos" Binding="{Binding X1}"/>
                         <DataGridTextColumn Header="X Len" Binding="{Binding X2}"/>
