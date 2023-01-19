@@ -12,6 +12,7 @@ namespace PersonaEditorLib
         {
             //Containers
             { ".bin", FormatEnum.BIN },
+            { ".abin", FormatEnum.BIN },
             { ".pak",  FormatEnum.BIN },
             { ".pac",  FormatEnum.BIN },
             { ".p00",  FormatEnum.BIN },
