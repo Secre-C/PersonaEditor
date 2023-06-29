@@ -8,10 +8,10 @@ namespace PersonaEditorLib.SpriteContainer
     public class SPRKey
     {
         public int _unk0x00;
-        public string mComment { get; private set; }
-        public byte[] mCommentByte;
-        public int mTextureIndex;
-        public int _unk0x18;
+        public string Comment { get; private set; }
+        public byte[] CommentByte;
+        public int TextureIndex;
+        public RotationMask RotMask;
         public int _unk0x1C;
         public int _unk0x20;
         public int _unk0x24;
@@ -22,8 +22,8 @@ namespace PersonaEditorLib.SpriteContainer
         public int _unk0x38;
         public int _unk0x3C;
         public int _unk0x40;
-        public int _unk0x44;
-        public int _unk0x48;
+        public int XOffset;
+        public int YOffset;
         public int _unk0x4C;
         public int _unk0x50;
         public int X1;
@@ -37,16 +37,17 @@ namespace PersonaEditorLib.SpriteContainer
         public int _unk0x74;
         public int _unk0x78;
         public int _unk0x7C;
+        public int Index;
 
-        public SPRKey(byte[] key)
+        public SPRKey(byte[] key, int index)
         {
             using (BinaryReader reader = new BinaryReader(new MemoryStream(key)))
             {
                 _unk0x00 = reader.ReadInt32();
-                mCommentByte = reader.ReadBytes(16);
-                mComment = Encoding.GetEncoding("shift-jis").GetString(mCommentByte.Where(x => x != 0x00).ToArray());
-                mTextureIndex = reader.ReadInt32();
-                _unk0x18 = reader.ReadInt32();
+                CommentByte = reader.ReadBytes(16);
+                Comment = Encoding.GetEncoding("shift-jis").GetString(CommentByte.Where(x => x != 0x00).ToArray());
+                TextureIndex = reader.ReadInt32();
+                RotMask = new RotationMask { data = reader.ReadInt32() };
                 _unk0x1C = reader.ReadInt32();
                 _unk0x20 = reader.ReadInt32();
                 _unk0x24 = reader.ReadInt32();
@@ -57,8 +58,8 @@ namespace PersonaEditorLib.SpriteContainer
                 _unk0x38 = reader.ReadInt32();
                 _unk0x3C = reader.ReadInt32();
                 _unk0x40 = reader.ReadInt32();
-                _unk0x44 = reader.ReadInt32();
-                _unk0x48 = reader.ReadInt32();
+                XOffset = reader.ReadInt32();
+                YOffset = reader.ReadInt32();
                 _unk0x4C = reader.ReadInt32();
                 _unk0x50 = reader.ReadInt32();
                 X1 = reader.ReadInt32();
@@ -72,6 +73,7 @@ namespace PersonaEditorLib.SpriteContainer
                 _unk0x74 = reader.ReadInt32();
                 _unk0x78 = reader.ReadInt32();
                 _unk0x7C = reader.ReadInt32();
+                Index = index;
             }
         }
 
@@ -83,9 +85,9 @@ namespace PersonaEditorLib.SpriteContainer
         public void Get(BinaryWriter writer)
         {
             writer.Write(_unk0x00);
-            writer.Write(mCommentByte);
-            writer.Write(mTextureIndex);
-            writer.Write(_unk0x18);
+            writer.Write(CommentByte);
+            writer.Write(TextureIndex);
+            writer.Write(RotMask.data);
             writer.Write(_unk0x1C);
             writer.Write(_unk0x20);
             writer.Write(_unk0x24);
@@ -96,8 +98,8 @@ namespace PersonaEditorLib.SpriteContainer
             writer.Write(_unk0x38);
             writer.Write(_unk0x3C);
             writer.Write(_unk0x40);
-            writer.Write(_unk0x44);
-            writer.Write(_unk0x48);
+            writer.Write(XOffset);
+            writer.Write(YOffset);
             writer.Write(_unk0x4C);
             writer.Write(_unk0x50);
             writer.Write(X1);
@@ -121,7 +123,7 @@ namespace PersonaEditorLib.SpriteContainer
         public SPRKeyList(BinaryReader reader, int count)
         {
             for (int i = 0; i < count; i++)
-                List.Add(new SPRKey(reader.ReadBytes(0x80)));
+                List.Add(new SPRKey(reader.ReadBytes(0x80), i));
         }
 
         public int Size
@@ -141,5 +143,23 @@ namespace PersonaEditorLib.SpriteContainer
                 a.Get(writer);
             }
         }
+    }
+
+    public struct RotationMask
+    {
+        internal int data;
+
+        public bool HorizontalFlip
+        {
+            get { return (data & 1) != 0; }
+            set { data = value ? data | 1 : data & ~1; }
+        }
+
+        public bool VerticalFlip
+        {
+            get { return (data & 2) != 0; }
+            set { data = value ? data | 2 : data & ~2; }
+        }
+
     }
 }

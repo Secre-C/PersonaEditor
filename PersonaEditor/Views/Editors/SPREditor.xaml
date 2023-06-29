@@ -38,14 +38,26 @@
                           Background="#FFF0F0F0" SelectionMode="Single" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" VerticalScrollBarVisibility="Visible">
                     <DataGrid.Columns>
                         <DataGridTextColumn IsReadOnly="True" Header="Name" Binding="{Binding Name}"/>
-                        <DataGridTextColumn Header="Tex ID" Binding="{Binding TextureID}"/>
-                        <DataGridTextColumn Header="Spr ID" Binding="{Binding ID}"/>
+                        <DataGridTextColumn Header="Tex ID" Binding="{Binding TextureID}" IsReadOnly="True"/>
+                        <DataGridTextColumn Header="Spr ID" Binding="{Binding ID}" IsReadOnly="True"/>
                         <DataGridTextColumn Header="X Pos" Binding="{Binding X1}"/>
                         <DataGridTextColumn Header="X Len" Binding="{Binding X2}"/>
                         <DataGridTextColumn Header="Y Pos" Binding="{Binding Y1}"/>
                         <DataGridTextColumn Header="Y Len" Binding="{Binding Y2}"/>
-                        <DataGridTextColumn Header="X Scl" Binding="{Binding X3}"/>
-                        <DataGridTextColumn Header="Y Scl" Binding="{Binding Y3}"/>
+                        <DataGridTemplateColumn Header="X Flip">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding XFlip, UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                        <DataGridTemplateColumn Header="Y Flip">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <CheckBox IsChecked="{Binding YFlip, UpdateSourceTrigger=PropertyChanged}"/>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
                     </DataGrid.Columns>
                 </DataGrid>
 
@@ -63,6 +75,7 @@
 
             <Grid Grid.Column="2">
                 <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
@@ -85,7 +98,20 @@
                     </StatusBar>
                 </Grid>
 
-                <Border DataContext="{Binding Path=TextureList/}" Grid.Row="1" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="42.57"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTip="P3P - 4, P4G - 2">
+                        Scale
+                    </TextBlock>
+                    <StatusBar Grid.Column="1">
+                        <controls:NumericIncDec x:Name="Scale" Min="1" Width="40" Value="{Binding Source={x:Static settings:SPREditor.Default}, Path=Scale, Mode=TwoWay}"/>
+                    </StatusBar>
+                </Grid>
+
+                <Border DataContext="{Binding Path=TextureList/}" Grid.Row="2" BorderBrush="Black" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <Border.Background>
                         <DrawingBrush Viewport="0,0,50,50" ViewportUnits="Absolute" TileMode="Tile">
                             <DrawingBrush.Drawing>

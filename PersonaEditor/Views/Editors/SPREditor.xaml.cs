@@ -1,10 +1,12 @@
 ﻿using PersonaEditor.ViewModels.Editors;
 using PersonaEditor.Views.Tools;
 using System;
+using System.Drawing;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Color = System.Windows.Media.Color;
 
 namespace PersonaEditor.Views.Editors
 {
