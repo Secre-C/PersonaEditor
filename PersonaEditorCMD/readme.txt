@@ -76,6 +76,8 @@ Command: PersonaEditor.exe "FilePath" [-command] [/arguments] [-command] [/argum
 				"UTF-32"
 
 	/size 13842	- When import image to FNT (-impimage), use this command to set new font's size. Optional.
+	
+	/ovrw  		- Overwrites the original file instead of adding "(NEW)" to the file name
 
 Basic example. You have BIN file, that contain two BF.
 For export:

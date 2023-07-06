@@ -385,7 +385,7 @@ namespace PersonaEditorCMD
             }
             else
             {
-                string path = savePath == "" ? Path.Combine(openedFileDir, Path.GetFileNameWithoutExtension(objectFile.Name) + "(NEW)" + Path.GetExtension(objectFile.Name)) : savePath;
+                string path = savePath == "" ? Path.Combine(openedFileDir, Path.GetFileNameWithoutExtension(objectFile.Name) + (parameters.Overwrite ? "" : "(NEW)") + Path.GetExtension(objectFile.Name)) : savePath;
                 File.WriteAllBytes(path, objectFile.GameData.GetData());
             }
         }

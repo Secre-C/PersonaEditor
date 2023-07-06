@@ -17,6 +17,7 @@ namespace PersonaEditorCMD.ArgumentHandler
         public int Size { get; } = -1;
         public bool AsBMD { get; } = false;
         public bool LineByLine { get; } = false;
+        public bool Overwrite { get; } = false;
 
         public Parameters()
         {
@@ -35,6 +36,8 @@ namespace PersonaEditorCMD.ArgumentHandler
                     RemoveSplit = true;
                 else if (a[0] == "/co2n")
                     CopyOld2New = true;
+                else if (a[0] == "/ovrw")
+                    Overwrite = true;
                 else if (a[0] == "/len")
                     Length = Convert.ToInt32(a[1]);
                 else if (a[0] == "/new")
