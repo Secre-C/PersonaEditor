@@ -30,7 +30,7 @@ namespace PersonaEditor.ViewModels.Editors
             texture = tmx;
             TextureImage = (tmx.GameData as IImage).GetBitmap().GetBitmapSource();
 
-            foreach (var a in keylist.Where(x => x.mTextureIndex == textureindex))
+            foreach (var a in keylist.Where(x => x.TextureIndex == textureindex))
                 KeyList.Add(new SPRKeyVM(a));
         }
 
