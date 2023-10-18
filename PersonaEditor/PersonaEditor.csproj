@@ -160,6 +160,9 @@
       <DependentUpon>ClosableTabItem.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\ClosableTabItemVM.cs" />
+    <Compile Include="Views\Editors\SPDEditor.xaml.cs">
+      <DependentUpon>SPDEditor.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Tools\ColorPickerTool.xaml.cs">
       <DependentUpon>ColorPickerTool.xaml</DependentUpon>
     </Compile>
@@ -287,6 +290,10 @@
     <Page Include="Views\ClosableTabItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Editors\SPDEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Tools\ColorPickerTool.xaml">
       <Generator>MSBuild:Compile</Generator>

@@ -141,7 +141,7 @@
                                 </DataTemplate>
                                 <DataTemplate DataType="{x:Type editorsVM:SPDEditorVM}">
                                     <Border BorderBrush="Black" BorderThickness="1">
-                                        <editors:SPREditor/>
+                                        <editors:SPDEditor/>
                                     </Border>
                                 </DataTemplate>
                                 <DataTemplate DataType="{x:Type editorsVM:BMDEditorVM}">
