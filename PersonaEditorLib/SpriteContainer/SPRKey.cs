@@ -120,10 +120,13 @@ namespace PersonaEditorLib.SpriteContainer
     {
         public List<SPRKey> List = new List<SPRKey>();
 
-        public SPRKeyList(BinaryReader reader, int count)
+        public SPRKeyList(BinaryReader reader, List<int> keyOffsetList)
         {
-            for (int i = 0; i < count; i++)
+            for (int i = 0; i < keyOffsetList.Count; i++)
+            {
+                reader.BaseStream.Seek(keyOffsetList[i], SeekOrigin.Begin);
                 List.Add(new SPRKey(reader.ReadBytes(0x80), i));
+            }
         }
 
         public int Size

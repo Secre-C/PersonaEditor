@@ -34,20 +34,26 @@ namespace PersonaEditorLib.SpriteContainer
         private void Open(BinaryReader reader)
         {
             Header = new SPRHeader(reader);
+
+            reader.BaseStream.Seek(Header.TextureOffset, SeekOrigin.Begin);
             for (int i = 0; i < Header.TextureCount; i++)
             {
                 reader.ReadUInt32();
                 TextureOffsetList.Add(reader.ReadInt32());
             }
+
+            reader.BaseStream.Seek(Header.KeyFrameOffset, SeekOrigin.Begin);
             for (int i = 0; i < Header.KeyFrameCount; i++)
             {
                 reader.ReadUInt32();
                 KeyOffsetList.Add(reader.ReadInt32());
             }
-            KeyList = new SPRKeyList(reader, Header.KeyFrameCount);
+
+            KeyList = new SPRKeyList(reader, KeyOffsetList);
 
             foreach (var a in TextureOffsetList)
             {
+                reader.BaseStream.Seek(a, SeekOrigin.Begin);
                 var tmx = new Sprite.TMX(new StreamPart(reader.BaseStream, -1, a));
                 SubFiles.Add(new GameFile(tmx.Comment + ".tmx", tmx));
             }
